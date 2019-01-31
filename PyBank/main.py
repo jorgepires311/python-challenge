@@ -7,6 +7,8 @@ totalMonths = 0
 listMonths = []
 listProfitLoss = []
 totalProfitLoss = 0
+changeProfitLoss = []
+difProfitLoss = 0
 averageProfitLoss = 0
 greatestIncrease = 0
 greatestIncreaseMonth = ""
@@ -24,21 +26,23 @@ with open('budget_data.csv', newline='') as csv_file:
     totalMonths = len(listProfitLoss) # count months
     listProfitLoss = [int(x) for x in listProfitLoss] # convert list items to integers
     totalProfitLoss = sum(listProfitLoss, 0) # sum of all profit/loss
-    averageProfitLoss = float("{0:.2f}".format(mean(listProfitLoss))) # average change per month
-    greatestIncrease = max(listProfitLoss) # get greatest increase amount
-    greatestIncreaseMonth = listMonths[listProfitLoss.index(greatestIncrease)] # get greatest increase month
-    greatestDecrease = min(listProfitLoss) # get greatest decrease amount
-    greatestDecreaseMonth = listMonths[listProfitLoss.index(greatestDecrease)] # get greatest decrease month
-
-    greatestDif = greatestDecrease - greatestIncrease
+    for x in range(totalMonths-1):  # compile list of change month to month
+        difProfitLoss = listProfitLoss[x + 1] - listProfitLoss[x]
+        changeProfitLoss.append(difProfitLoss)
+        if(difProfitLoss >  greatestIncrease):
+            greatestIncrease = difProfitLoss
+            greatestIncreaseMonth = listMonths[listProfitLoss.index(listProfitLoss[x + 1])] # get greatest increase month
+        if(difProfitLoss <  greatestDecrease):
+            greatestDecrease = difProfitLoss
+            greatestDecreaseMonth = listMonths[listProfitLoss.index(listProfitLoss[x + 1])] # get greatest decrease month
+    averageProfitLoss = float("{0:.2f}".format(mean(changeProfitLoss))) # average change overall
 ######################################################### output analysis
-print('---------------------------------------------------------')
+print('----------------------------------------------------')
 print('Financial Analysis')
-print('---------------------------------------------------------')
+print('----------------------------------------------------')
 print(f'Total Months:                   {totalMonths}')
 print(f'Totals:                         ${totalProfitLoss}')
 print(f'Average Change:                 ${averageProfitLoss}')
 print(f'Greatest Increase in Profits:   {greatestIncreaseMonth} (${greatestIncrease})')
 print(f'Greatest Decrease in Profits:   {greatestDecreaseMonth} (${greatestDecrease})')
-print('---------------------------------------------------------')
-print(greatestDif)
+print('----------------------------------------------------')
