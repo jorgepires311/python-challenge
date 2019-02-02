@@ -36,7 +36,7 @@ with open('budget_data.csv', newline='') as csv_file:
             greatestDecrease = difProfitLoss
             greatestDecreaseMonth = listMonths[listProfitLoss.index(listProfitLoss[x + 1])] # get greatest decrease month
     averageProfitLoss = float("{0:.2f}".format(mean(changeProfitLoss))) # average change overall
-######################################################### output analysis
+######################################################### output analysis to consle
 print('----------------------------------------------------')
 print('Financial Analysis')
 print('----------------------------------------------------')
@@ -46,3 +46,15 @@ print(f'Average Change:                 ${averageProfitLoss}')
 print(f'Greatest Increase in Profits:   {greatestIncreaseMonth} (${greatestIncrease})')
 print(f'Greatest Decrease in Profits:   {greatestDecreaseMonth} (${greatestDecrease})')
 print('----------------------------------------------------')
+######################################################### output analysis to file
+resultOutputFile = open("output.txt", "w")
+resultOutputFile.write('----------------------------------------------------\n')
+resultOutputFile.write('Financial Analysis\n')
+resultOutputFile.write('----------------------------------------------------\n')
+resultOutputFile.write(f'Total Months:                   {totalMonths}\n')
+resultOutputFile.write(f'Totals:                         ${totalProfitLoss}\n')
+resultOutputFile.write(f'Average Change:                 ${averageProfitLoss}\n')
+resultOutputFile.write(f'Greatest Increase in Profits:   {greatestIncreaseMonth} (${greatestIncrease})\n')
+resultOutputFile.write(f'Greatest Decrease in Profits:   {greatestDecreaseMonth} (${greatestDecrease})\n')
+resultOutputFile.write('----------------------------------------------------\n')
+resultOutputFile.close()
