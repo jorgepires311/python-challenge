@@ -70,14 +70,13 @@ with open('employee_data.csv', newline='') as csv_file:
 ######################################################### populate list with candidate votes
     for row in csvReader:
         empID.append(row[0]) # set employee ID column
-        empName = split(" ",row[1])
+        empName = row[1].split(" ")
         empFirstName.append(empName[0]) # set employee first name
-        empFirstName.append(empName[1]) # set employee last name
-        dobTemp = split("/",row[2])
-        dob.append(dobTemp[2],"-",dobTemp[0],"-",dobTemp[1])  # set dob format
-        #dob.append(dobTemp[0],"/",dobTemp[1],"/",dobTemp[2])  # set dob format
-        ssnTemp = split("-",row[3])
-        ssn.append("***-**-",ssnTemp[2]) # format SSN
+        empLastName.append(empName[1]) # set employee last name
+        dobTemp = row[2].split("-")      
+        dob.append(dobTemp[0]+"/"+dobTemp[1]+"/"+dobTemp[2])  # set dob format
+        ssnTemp = row[3].split("-")
+        ssn.append("***-**-"+ssnTemp[2]) # format SSN
         state.append(us_state_abbrev[row[4]]) # abreviate state
 ######################################################### join results
 empTable = zip(empID,empFirstName,empLastName,dob,ssn,state)
@@ -86,4 +85,4 @@ output_file = os.path.join("output.csv")
 with open(output_file, "w", newline="") as datafile:
     writer = csv.writer(datafile)
     writer.writerow(["Emp ID","First Name","Last Name","DOB","SSN","State"])
-    writer.writerows(empTable )
+    writer.writerows(empTable)
